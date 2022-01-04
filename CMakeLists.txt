@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
-project(findopenmp-crash VERSION 0.1.0 LANGUAGES C CXX)
+project(testOpenMP VERSION 0.1.0 LANGUAGES C CXX)
 message(STATUS "Configuring ${PROJECT_NAME} version ${PROJECT_VERSION} using CMake ${CMAKE_VERSION}")
 
-add_library(findopenmp-crash SHARED findopenmp-crash.cpp)
+option(USE_OPENMP_PACKAGE "Use find_package(OpenMP)" TRUE)
 
-set_target_properties(findopenmp-crash PROPERTIES
+add_library(testOpenMP SHARED testOpenMP.cpp)
+
+set_target_properties(testOpenMP PROPERTIES
     VERSION "${PROJECT_VERSION}"
     SOVERSION 8
     FRAMEWORK TRUE
@@ -14,7 +16,17 @@ set_target_properties(findopenmp-crash PROPERTIES
     MACOSX_FRAMEWORK_BUNDLE_VERSION "${PROJECT_VERSION}"
 )
 
-find_package(OpenMP REQUIRED)
+if(USE_OPENMP)
+    find_package(OpenMP REQUIRED)
 
-target_link_libraries(findopenmp-crash PUBLIC
-    OpenMP::OpenMP_CXX)
+    target_link_libraries(testOpenMP PUBLIC
+        OpenMP::OpenMP_CXX)
+else()
+    target_compile_options(testOpenMP PUBLIC
+        -Xclang -fopenmp)
+    target_include_directories(testOpenMP PUBLIC
+        /usr/local/include)
+    target_link_libraries(testOpenMP PUBLIC
+        /usr/local/lib/libomp.dylib)
+endif()
+
