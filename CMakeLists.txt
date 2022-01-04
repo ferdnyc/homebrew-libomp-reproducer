@@ -26,7 +26,8 @@ else()
         -Xclang -fopenmp)
     target_include_directories(testOpenMP PUBLIC
         /usr/local/include)
-    target_link_libraries(testOpenMP PUBLIC
-        /usr/local/lib/libomp.dylib)
+    target_link_directories(testOpenMP PUBLIC
+       /usr/local/lib)
+    target_link_libraries(testOpenMP PUBLIC omp)
 endif()
 
