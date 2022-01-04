@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(testOpenMP VERSION 0.1.0 LANGUAGES C CXX)
 message(STATUS "Configuring ${PROJECT_NAME} version ${PROJECT_VERSION} using CMake ${CMAKE_VERSION}")
 
-option(USE_OPENMP_PACKAGE "Use find_package(OpenMP)" TRUE)
+option(USE_PACKAGE "Use find_package(OpenMP)" ON)
 
 add_library(testOpenMP SHARED testOpenMP.cpp)
 
@@ -16,7 +16,7 @@ set_target_properties(testOpenMP PROPERTIES
     MACOSX_FRAMEWORK_BUNDLE_VERSION "${PROJECT_VERSION}"
 )
 
-if(USE_OPENMP)
+if(USE_PACKAGE)
     find_package(OpenMP REQUIRED)
 
     target_link_libraries(testOpenMP PUBLIC
