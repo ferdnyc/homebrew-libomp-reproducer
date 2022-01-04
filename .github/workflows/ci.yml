@@ -94,6 +94,7 @@ jobs:
 
       - name: Clang baseline build
         if: matrix.compiler.cc == 'clang'
+        run: |
           cmake -B build_single -S . -G "Unix Makefiles" \
             --trace-source=FindOpenMP.cmake --trace-expand \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
@@ -105,6 +106,7 @@ jobs:
 
       - name: GCC package-less build
         if: matrix.compiler.cc == 'gcc'
+        run: |
           cmake -B build_nopackage -S . -G "Unix Makefiles"
             -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
             -DCMAKE_BUILD_TYPE=Debug -DUSE_PACKAGE=0 \
