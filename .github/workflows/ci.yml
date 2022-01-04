@@ -83,7 +83,7 @@ jobs:
       - name: Clang package-less build
         if: matrix.compiler.cc == 'clang'
         run: |
-          cmake -B build_nopackage -S . -G "Unix Makefiles"
+          cmake -B build_nopackage -S . -G "Unix Makefiles" \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
             -DCMAKE_EXE_LINKER_FLAGS=-stdlib=libc++ \
             -DCMAKE_MODULE_LINKER_FLAGS=-stdlib=libc++ \
@@ -107,7 +107,7 @@ jobs:
       - name: GCC package-less build
         if: matrix.compiler.cc == 'gcc'
         run: |
-          cmake -B build_nopackage -S . -G "Unix Makefiles"
+          cmake -B build_nopackage -S . -G "Unix Makefiles" \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
             -DCMAKE_BUILD_TYPE=Debug -DUSE_PACKAGE=0 \
             -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
