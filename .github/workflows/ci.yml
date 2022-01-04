@@ -38,7 +38,7 @@ jobs:
             -DCMAKE_MODULE_LINKER_FLAGS=-stdlib=libc++ \
             -DCMAKE_SHARED_LINKER_FLAGS=-stdlib=libc++ \
             -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
-            -DCMAKE_BUILD_TYPE=Debug
+            -DCMAKE_BUILD_TYPE=Debug --debug-trycompile
           cmake --build build -- VERBOSE=1
 
       - name: GCC reproducer
@@ -48,8 +48,37 @@ jobs:
             --trace-source=FindOpenMP.cmake --trace-expand \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
             -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
-            -DCMAKE_BUILD_TYPE=Debug
+            -DCMAKE_BUILD_TYPE=Debug --debug-trycompile
           cmake --build build -- VERBOSE=1
+
+      - name: Export failed build tree as artifact
+        if: failure()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: build_${{ matrix.compiler.cc }}
+          path: 'build/'
+
+  baseline:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - { cc: gcc, cxx: g++ }
+          - { cc: clang, cxx: clang++ }
+    defaults:
+      run:
+        shell: bash
+    env:
+      CC: ${{ matrix.compiler.cc }}
+      CXX: ${{ matrix.compiler.cxx }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install macOS dependencies
+        run: |
+          brew install libomp
 
       - name: Clang baseline build
         if: matrix.compiler.cc == 'clang'
