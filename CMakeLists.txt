@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(findopenmp-crash VERSION 0.1.0 LANGUAGES CXX)
+project(findopenmp-crash VERSION 0.1.0 LANGUAGES C CXX)
 message(STATUS "Configuring ${PROJECT_NAME} version ${PROJECT_VERSION} using CMake ${CMAKE_VERSION}")
 
 add_library(findopenmp-crash SHARED findopenmp-crash.cpp)
