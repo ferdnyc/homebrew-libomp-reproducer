@@ -51,6 +51,7 @@ jobs:
           cmake -B build -S . -G "Unix Makefiles" \
             --trace-source=FindOpenMP.cmake --trace-expand \
             -DCMAKE_BUILD_TYPE="Debug" \
-            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/install"
+            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/install" \
+            ${CMAKE_EXTRA}
 
           cmake --build build -- VERBOSE=1
