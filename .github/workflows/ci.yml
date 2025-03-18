@@ -22,7 +22,7 @@ jobs:
       CXX: ${{ matrix.compiler.cxx }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install macOS dependencies
         run: |
@@ -53,7 +53,7 @@ jobs:
 
       - name: Export failed build tree as artifact
         if: failure()
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v4
         with:
           name: build_${{ matrix.compiler.cc }}
           path: 'build/'
@@ -74,7 +74,7 @@ jobs:
       CXX: ${{ matrix.compiler.cxx }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install macOS dependencies
         run: |
